@@ -169,26 +169,6 @@ void loop() {
     heartrate.DisplayString(tempString, 3);
 }
 
-void printAverageData() {
-  Serial.print("hr array: {");
-  for (int i = 0; i < numReadings; i++) {
-    Serial.print(hrAvg[i]);
-    Serial.print(" ");
-  }
-  Serial.println(']');
-  Serial.print("hr average: ");
-  Serial.println(hrAverage);
-
-  Serial.print("cadence array: [");
-  for (int i = 0; i < numReadings; i++) {
-    Serial.print(cadenceAvg[i]);
-    Serial.print(" ");
-  }
-  Serial.println(']');
-  Serial.print("cadence average: ");
-  Serial.println(cadenceAverage);
-
-}
 void printRawData() {
   Serial.print("heartrate: ");
   Serial.print(hr);
