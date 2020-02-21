@@ -162,7 +162,6 @@ void loop() {
       motor.setSpeed(map(hr, 0, 200, 50, 255));
       startTime = currentTime;
       //printRawData();
-      //printAverageData();
     }
     char tempString[3];
     sprintf(tempString, "%4d", (int)hr);
