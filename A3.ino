@@ -23,14 +23,7 @@ const int chipSelect = 4;
 unsigned long lastUpdate;
 int updateInterval = 0;
 File dataFile;
-const int numReadings = 5;
-int index = 0;
-float hrAvg[numReadings];
-int hrAverage = 0;
-int hrTotal = 0;
-float cadenceAvg[numReadings];
-int cadenceAverage = 0;
-int cadenceTotal = 0;
+
 unsigned long startTime = 0;
 
 
@@ -160,42 +153,20 @@ SIGNAL(TIMER0_COMPA_vect)
 }
 
 void loop() {
-
-  if (dataFile) {
     unsigned long currentTime = millis();
 
     //unsigned long currentLegTime = millis();
     if (currentTime - startTime >= 1000) {
-      //Serial.println("Time to go!");
       getData();
-      hrAvg[index % 5] = hr;
-      hrTotal = 0;
-      for (int i = 0; i < numReadings; i++) {
-        hrTotal += hrAvg[i];
-      }
-      hrAverage = hrTotal / numReadings;
-
-      cadenceAvg[index % 5] = cadence;
-      cadenceTotal = 0;
-      for (int i = 0; i < numReadings; i++) {
-        cadenceTotal += cadenceAvg[i];
-      }
-      cadenceAverage = cadenceTotal / numReadings;
-      index++;
-      //Serial.println(cadenceAverage);
-      sweeper1.setUpdateInterval(cadenceArr[cadenceAverage]);
-
-      //Serial.println(hrAverage);
-      motor.setSpeed(map(hrAverage, 0, 200, 50, 255));
-      
+      sweeper1.setUpdateInterval(cadenceArr[(int)cadence]);
+      motor.setSpeed(map(hr, 0, 200, 50, 255));
       startTime = currentTime;
       //printRawData();
       //printAverageData();
     }
-    char tempString[10];
-    sprintf(tempString, "%4d", hrAverage);
+    char tempString[3];
+    sprintf(tempString, "%4d", (int)hr);
     heartrate.DisplayString(tempString, 3);
-  }
 }
 
 void printAverageData() {
